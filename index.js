@@ -771,6 +771,27 @@ const caseHandler = async (type, stateId, today) => {
   return returnData;
 };
 
+const defaultResponse = {
+  message:
+    'Hi, This is Shan.tk, Made this covid API Based on COWIN and COVIN19India APIs. This API is Only Related to INDIA Stats',
+  website: 'https://sudharshan.tk',
+  documentation: 'https://github.com/tks18/cf-worker-covid-api',
+  endpoints: [
+    {
+      url: '/cases',
+      desc: 'Data Related to Cases',
+    },
+    {
+      url: '/vaccine',
+      desc: 'Data Related to Vaccination',
+    },
+    {
+      url: '/states',
+      desc: 'List of States and their Data for use in other endpoints',
+    },
+  ],
+};
+
 async function checkProperUrl(request) {
   let url = new URL(request.url);
   let path = decodeURI(url.pathname);
@@ -803,7 +824,7 @@ async function checkProperUrl(request) {
       headers: { 'content-type': 'application/json;charset=UTF-8' },
     });
   }
-  return new Response(JSON.stringify(statesList, null, 0), {
+  return new Response(JSON.stringify(defaultResponse, null, 0), {
     headers: { 'content-type': 'application/json;charset=UTF-8' },
   });
 }
