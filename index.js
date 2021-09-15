@@ -762,6 +762,10 @@ const defaultResponse = {
   documentation: 'https://github.com/tks18/cf-worker-covid-api',
   endpoints: [
     {
+      url: '/signup',
+      desc: 'Signup for the API to use this api'
+    },
+    {
       url: '/cases',
       desc: 'Data Related to Cases',
     },

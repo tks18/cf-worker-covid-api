@@ -6,6 +6,8 @@ A Cloudflare Worker Based Covid Stats API using COWIN API for Tracking India's C
 
 **Authenticated Requests using API KEY**
 
+**However this is API is Free to use, Just you have to signup so that we have better Identification**
+
 - Supports
   - Covid Cases
     - Daily
