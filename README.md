@@ -4,7 +4,7 @@
 
 A Cloudflare Worker Based Vaccination Stats API (India) using COWIN API
 
-Try it Now !
+Try it Now ! - [here](https://vaccine-stats-api.shan-tk.workers.dev/)
 
 Based on my [Vaccine Stats Plugin](https://github.com/tks18/covid-stats-module)
 
