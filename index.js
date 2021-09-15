@@ -223,11 +223,11 @@ const statesList = [
   },
 ];
 
-addEventListener('fetch', event => {
-  event.respondWith(handleRequest(event.request))
-})
+addEventListener('fetch', (event) => {
+  event.respondWith(handleRequest(event.request));
+});
 
-const  dateFormatter = (date, reverse) => {
+const dateFormatter = (date, reverse) => {
   const d = new Date(date);
   let month = `${d.getMonth() + 1}`;
   let day = `${d.getDate()}`;
@@ -301,7 +301,7 @@ const numToLoader = (number, suffix) => ({
 });
 
 const vaccineUrlConstructor = (state = null, district = null, date) => {
-  const url = 'https://api.cowin.gov.in/api/v1/reports/v2/getPublicReports';;
+  const url = 'https://api.cowin.gov.in/api/v1/reports/v2/getPublicReports';
   let constructedUrl;
   if (
     (state === null || !Number.isInteger(state)) &&
@@ -341,8 +341,8 @@ const vaccineDatafromApi = async (state, district, date) => {
   const url = vaccineUrlConstructor(state, district, date);
   const response = await fetch(url, {
     method: 'get',
-  })
-  const resp = await response.json()
+  });
+  const resp = await response.json();
   if (response.status === 200 && resp) {
     return {
       success: true,
@@ -369,7 +369,7 @@ const getVaccineData = async (state = null, district = null) => {
     }
   }
   return responses;
-}
+};
 
 const casesBuildDailyNosUrl = (stateLevel, stateId) => {
   const baseUrl = 'https://api.covid19india.org/v4/min/';
@@ -389,9 +389,9 @@ const casesDefaultUrl = (stateLevel, stateId) => {
 
 const getCasesDatafromAPI = async (apiPath) => {
   const response = await fetch(apiPath, {
-    method: 'get'
-  })
-  const resp = await response.json()
+    method: 'get',
+  });
+  const resp = await response.json();
   if (response.status === 200 && resp) {
     return {
       success: true,
@@ -586,7 +586,10 @@ const populateVaccinationStats = async (vaccineData, stateLevel, stateId) => {
       female: todayData.topBlock.vaccination.today_female,
       others: todayData.topBlock.vaccination.today_others,
       aefi: todayData.topBlock.vaccination.today_aefi,
-      ageWise: objTodelta(todayData.vaccinationByAge, yestData.vaccinationByAge),
+      ageWise: objTodelta(
+        todayData.vaccinationByAge,
+        yestData.vaccinationByAge,
+      ),
     },
     vaccineWiseStats: {
       covishield: {
@@ -771,37 +774,41 @@ const caseHandler = async (type, stateId, today) => {
 async function checkProperUrl(request) {
   let url = new URL(request.url);
   let path = decodeURI(url.pathname);
-  let stateID = url.searchParams.get('state')
-  let districtID = url.searchParams.get('district')
-  console.log(path, stateID)
-  if (path === "/vaccine"){
+  let stateID = url.searchParams.get('state');
+  let districtID = url.searchParams.get('district');
+  if (path === '/vaccine') {
     const vaccineData = await vaccinationHandler(stateID, districtID);
     return new Response(JSON.stringify(vaccineData, null, 2), {
-      headers: { 'content-type': "application/json;charset=UTF-8" }
-    })
-  } else if (path === '/cases'){
-    let type = url.searchParams.get('type')
-    let today = url.searchParams.get('today')
-    if (type){
-      const casesData = await caseHandler(type, stateID, today)
+      headers: { 'content-type': 'application/json;charset=UTF-8' },
+    });
+  } else if (path === '/cases') {
+    let type = url.searchParams.get('type');
+    let today = url.searchParams.get('today');
+    if (type) {
+      const casesData = await caseHandler(type, stateID, today);
       return new Response(JSON.stringify(casesData, null, 2), {
-        headers: { 'content-type': "application/json;charset=UTF-8" }
-      })
+        headers: { 'content-type': 'application/json;charset=UTF-8' },
+      });
     } else {
       const errorResponse = {
-        error: 'Cases Endpoint Requires type query parameter. type accepts following values - complete, historical, today'
-      }
+        error:
+          'Cases Endpoint Requires type query parameter. type accepts following values - complete, historical, today',
+      };
       return new Response(JSON.stringify(errorResponse, null, 2), {
-        headers: { 'content-type': "application/json;charset=UTF-8" }
-      })
+        headers: { 'content-type': 'application/json;charset=UTF-8' },
+      });
     }
+  } else if (path === '/states') {
+    return new Response(JSON.stringify(statesList, null, 0), {
+      headers: { 'content-type': 'application/json;charset=UTF-8' },
+    });
   }
-  return new Response('hello', {
-    headers: {'content-type': 'text/plain'}
-  })
+  return new Response(JSON.stringify(statesList, null, 0), {
+    headers: { 'content-type': 'application/json;charset=UTF-8' },
+  });
 }
 
 async function handleRequest(request) {
-  const response = await checkProperUrl(request)
-  return response
+  const response = await checkProperUrl(request);
+  return response;
 }
