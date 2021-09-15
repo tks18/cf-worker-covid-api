@@ -11,12 +11,17 @@ A Cloudflare Worker Based Covid Stats API using COWIN API for Tracking India's C
   - Vaccination Details
     - Daily Changes
     - Historical
+  - Scope
+    - India
+    - India - State Wise
 
 Try it Now ! - [here](https://covid-stats-api.shan-tk.workers.dev/)
 
-Based on my [Vaccine Stats Plugin](https://github.com/tks18/covid-stats-module)
+Based on my [Vaccine Stats Plugin](https://github.com/tks18/covid-stats-module
 
 ## Endpoints
+
+**Every Endpoint will accept state param so data can be Drilled down to Each State**
 
 #### Show States List
 
@@ -340,5 +345,3 @@ Stats of Covid Cases Related to India
   }
 }
 ```
-
-**Every Endpoint will accept state param so data can be Drilled down to Each State**
