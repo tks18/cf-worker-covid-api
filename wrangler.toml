@@ -1,0 +1,7 @@
+name = "vaccine-stats-api"
+type = "javascript"
+
+account_id = "d88d77838eb4bf179ef785d330a47f73"
+workers_dev = true
+route = ""
+zone_id = ""

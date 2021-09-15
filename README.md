@@ -1,2 +1,5 @@
-# cf-worker-covid-api
-A Cloudflare Worker Based Covid and Vaccination API for Use in Other Websites
+# Worker Based Covid Vaccination Stats API
+
+A Cloudflare Worker Based Vaccination Stats API (India) using COWIN API
+
+Website

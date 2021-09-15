@@ -1,0 +1,20 @@
+{
+  "name": "cf-worker-covid-api",
+  "version": "1.0.0",
+  "description": "A Cloudflare Worker Based Vaccination Stats API (India) using COWIN API",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "format": "prettier --write '**/*.{js,css,json,md}'"
+  },
+  "author": "tks18 <tksudharshan@gmail.com>",
+  "license": "MIT",
+  "devDependencies": {
+    "prettier": "^1.18.2"
+  },
+  "dependencies": {
+    "axios": "^0.21.4",
+    "comma-number": "^2.1.0",
+    "human-format": "^0.11.0"
+  }
+}
