@@ -25,8 +25,8 @@ Based on my [Vaccine Stats Plugin](https://github.com/tks18/covid-stats-module
 
 ## Uses
 
-- Cloudflare Workers
-- KV Namespaces
+- **Cloudflare Workers**
+- **KV Namespaces**
 
 ## Endpoints
 
