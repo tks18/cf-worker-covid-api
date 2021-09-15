@@ -13,12 +13,15 @@ Based on my [Vaccine Stats Plugin](https://github.com/tks18/covid-stats-module)
 #### Show States List
 
 Lists all the States with their Data
+
 **URL** : `/states`
+
 **Method** : `GET`
 
 ##### Success Response
 
 **Code** : `200 OK`
+
 **Content examples**
 
 ```json
@@ -36,17 +39,23 @@ Lists all the States with their Data
 #### Vaccination Data
 
 Complete Data Related to Vaccination in India (Today's / Historical)
+
 **URL** : `/vaccine`
+
 **Method** : `GET`
+
 **Params**:
 
 - state - Optional
+
   **_if is sent it should be a number from 0 upto 35_**
 
 ##### Success Response
 
 **Code** : `200 OK`
+
 **Content examples**.
+
 _if state_id is sent then the following data will be related to a particular state_
 
 ```json
@@ -128,18 +137,31 @@ _if state_id is sent then the following data will be related to a particular sta
 #### Show Covid Cases Details
 
 Stats of Covid Cases Related to India
+
 **URL** : `/cases`
+
 **Method** : `GET`
+
 **Params**:
 
 - type - Required
-  **_Type of Data Requested, Accepts Following Values_** - "complete" - Sends all Historical Data as well as today's data for States and their Districts - "historical" - Sends Only the Historical Stats Data for States - "today" - Send only the Data relating to Today's Changes for States as well as total India
+
+  **_Type of Data Requested, Accepts Following Values_**
+
+  - "complete" - Sends all Historical Data as well as today's data for States and their Districts
+
+  - "historical" - Sends Only the Historical Stats Data for States
+
+  - "today" - Send only the Data relating to Today's Changes for States as well as total India
+
 - state - Optional
+
   **_if is sent it should be a State ALPHA ID (shall be found from /state endpoint)_**
 
 ##### Success Response
 
 **Code** : `200 OK`
+
 **Content examples**
 
 - If type is "today"
@@ -313,4 +335,4 @@ Stats of Covid Cases Related to India
 }
 ```
 
-**Every API will accept state param so data can be Drilled down to Each State**
+**Every Endpoint will accept state param so data can be Drilled down to Each State**
