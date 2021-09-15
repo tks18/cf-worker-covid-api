@@ -85,12 +85,12 @@ Lists all the States with their Data
 ```json
 [
   {
-    state_id: 1,
-    state_code: 'AN',
-    api_code: 'AN',
-    state_name: 'Andaman and Nicobar Islands',
-  },
-  ...// list of all States
+    "state_id": 1,
+    "state_code": "AN",
+    "api_code": "AN",
+    "state_name": "Andaman and Nicobar Islands"
+  }
+  // All States
 ]
 ```
 
