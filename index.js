@@ -776,44 +776,131 @@ const defaultResponse = {
   ],
 };
 
-async function checkProperUrl(request) {
-  let url = new URL(request.url);
-  let path = decodeURI(url.pathname);
-  let stateID = url.searchParams.get('state');
-  let districtID = url.searchParams.get('district');
-  if (path === '/vaccine') {
-    const vaccineData = await vaccinationHandler(stateID, districtID);
-    return new Response(JSON.stringify(vaccineData, null, 2), {
-      headers: { 'content-type': 'application/json;charset=UTF-8' },
-    });
-  } else if (path === '/cases') {
-    let type = url.searchParams.get('type');
-    let today = url.searchParams.get('today');
-    if (type) {
-      const casesData = await caseHandler(type, stateID, today);
-      return new Response(JSON.stringify(casesData, null, 2), {
+function checkUser(list, email) {
+  const present = [];
+  for (let i = 0; i < list.keys.length; i++) {
+    const presentEmail = list.keys[i].metadata.email;
+    if (email === presentEmail) {
+      present.push(true);
+    } else {
+      present.push(false);
+    }
+  }
+  return present.includes(true);
+}
+
+async function checkToken(uid) {
+  const token = await TOKENS.get(uid);
+  if (token === null) {
+    return false;
+  } else {
+    return true;
+  }
+}
+
+async function handleSignup(url) {
+  const name = url.searchParams.get('name');
+  const email = url.searchParams.get('email');
+  if (name && email) {
+    const list = await TOKENS.list();
+    const user = checkUser(list, email);
+    if (user) {
+      const resp = {
+        status: 'error',
+        message: 'username already present, try other name',
+      };
+      return new Response(JSON.stringify(resp, null, 0), {
+        status: 401,
         headers: { 'content-type': 'application/json;charset=UTF-8' },
       });
     } else {
-      const errorResponse = {
-        error:
-          'Cases Endpoint Requires type query parameter. type accepts following values - complete, historical, today',
+      const uid = crypto.randomUUID();
+      await TOKENS.put(uid, name, { metadata: { name, email } });
+      const response = {
+        apikey: uid,
+        name,
+        email,
       };
-      return new Response(JSON.stringify(errorResponse, null, 2), {
+      return new Response(JSON.stringify(response, null, 0), {
+        status: 200,
         headers: { 'content-type': 'application/json;charset=UTF-8' },
       });
     }
-  } else if (path === '/states') {
-    return new Response(JSON.stringify(statesList, null, 0), {
-      headers: { 'content-type': 'application/json;charset=UTF-8' },
+  } else {
+    return new Response('Requires name and email query parameters', {
+      status: 404,
+      headers: { 'content-type': 'text/plain' },
     });
   }
-  return new Response(JSON.stringify(defaultResponse, null, 0), {
-    headers: { 'content-type': 'application/json;charset=UTF-8' },
-  });
+}
+
+async function handleAuthenticatedRoute(url) {
+  const apiID = url.searchParams.get('apikey');
+  if (apiID) {
+    const list = await TOKENS.list();
+    const tokenCheck = await checkToken(apiID);
+    if (tokenCheck) {
+      let path = decodeURI(url.pathname);
+      let stateID = url.searchParams.get('state');
+      let districtID = url.searchParams.get('district');
+      if (path === '/vaccine') {
+        const vaccineData = await vaccinationHandler(stateID, districtID);
+        return new Response(JSON.stringify(vaccineData, null, 2), {
+          status: 200,
+          headers: { 'content-type': 'application/json;charset=UTF-8' },
+        });
+      } else if (path === '/cases') {
+        let type = url.searchParams.get('type');
+        let today = url.searchParams.get('today');
+        if (type) {
+          const casesData = await caseHandler(type, stateID, today);
+          return new Response(JSON.stringify(casesData, null, 2), {
+            status: 200,
+            headers: { 'content-type': 'application/json;charset=UTF-8' },
+          });
+        } else {
+          const errorResponse = {
+            error:
+              'Cases Endpoint Requires type query parameter. type accepts following values - complete, historical, today',
+          };
+          return new Response(JSON.stringify(errorResponse, null, 2), {
+            status: 404,
+            headers: { 'content-type': 'application/json;charset=UTF-8' },
+          });
+        }
+      } else if (path === '/states') {
+        return new Response(JSON.stringify(statesList, null, 0), {
+          status: 200,
+          headers: { 'content-type': 'application/json;charset=UTF-8' },
+        });
+      }
+    } else {
+      return new Response('apikey not matching', {
+        status: 401,
+        headers: { 'content-type': 'text/plain' },
+      });
+    }
+  } else {
+    return new Response('apikey is required for authenticating request', {
+      status: 403,
+      headers: { 'content-type': 'text/plain' },
+    });
+  }
 }
 
 async function handleRequest(request) {
-  const response = await checkProperUrl(request);
-  return response;
+  let url = new URL(request.url);
+  let path = decodeURI(url.pathname);
+  if (path === '/') {
+    return new Response(JSON.stringify(defaultResponse, null, 0), {
+      status: 200,
+      headers: { 'content-type': 'application/json;charset=UTF-8' },
+    });
+  } else if (path === '/signup') {
+    const response = await handleSignup(url);
+    return response;
+  } else {
+    const response = await handleAuthenticatedRoute(url);
+    return response;
+  }
 }
