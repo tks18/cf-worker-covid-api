@@ -4,6 +4,8 @@
 
 A Cloudflare Worker Based Covid Stats API using COWIN API for Tracking India's Covid Numbers
 
+**Authenticated Requests using API KEY**
+
 - Supports
   - Covid Cases
     - Daily
@@ -19,9 +21,46 @@ Try it Now ! - [here](https://covid-stats-api.shan-tk.workers.dev/)
 
 Based on my [Vaccine Stats Plugin](https://github.com/tks18/covid-stats-module
 
+## Uses
+
+- Cloudflare Workers
+- KV Namespaces
+
 ## Endpoints
 
 **Every Endpoint will accept state param so data can be Drilled down to Each State**
+
+#### Signup for API
+
+Creates a api key to use this API
+
+**URL** : `/signup`
+
+**Method** : `GET`
+
+**Params**:
+
+- name - Required
+
+  **A Unique Username**
+
+- email - Required
+
+  **Email address**
+
+##### Success Response
+
+**Code** : `200 OK`
+
+**Content examples**
+
+```json
+{
+  "apikey": "120913123-1312-3-123-123-123",
+  "name": "cool",
+  "email": "supercoo@mgail.com"
+}
+```
 
 #### Show States List
 
@@ -30,6 +69,10 @@ Lists all the States with their Data
 **URL** : `/states`
 
 **Method** : `GET`
+
+**Params**:
+
+- apikey - Required
 
 ##### Success Response
 
@@ -58,6 +101,8 @@ Complete Data Related to Vaccination in India (Today's / Historical)
 **Method** : `GET`
 
 **Params**:
+
+- apikey - Required
 
 - state - Optional
 
@@ -154,6 +199,8 @@ Stats of Covid Cases Related to India
 **Method** : `GET`
 
 **Params**:
+
+- apikey - Required
 
 - type - Required
 
