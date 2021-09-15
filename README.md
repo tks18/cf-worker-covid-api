@@ -82,12 +82,10 @@ _if state_id is sent then the following data will be related to a particular sta
       "number": 1332900000,
       "percentage": {
         "dose1": {
-          "num": "43.35%",
-          "loader": "▓▓▓▓▓▓▓▓░░░░░░░░░░░░"
+          "num": "43.35%"
         },
         "dose2": {
-          "num": "13.89%",
-          "loader": "▓▓░░░░░░░░░░░░░░░░░░"
+          "num": "13.89%"
         }
       }
     },
