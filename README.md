@@ -2,7 +2,15 @@
 
 ## by [Shan.tk](https://sudharshan.tk)
 
-A Cloudflare Worker Based Vaccination Stats API (India) using COWIN API
+A Cloudflare Worker Based Covid Stats API using COWIN API for Tracking India's Covid Numbers
+
+- Supports
+  - Covid Cases
+    - Daily
+    - Historical
+  - Vaccination Details
+    - Daily Changes
+    - Historical
 
 Try it Now ! - [here](https://covid-stats-api.shan-tk.workers.dev/)
 
