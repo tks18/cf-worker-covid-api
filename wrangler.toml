@@ -1,4 +1,4 @@
-name = "vaccine-stats-api"
+name = "covid-stats-api"
 type = "javascript"
 
 account_id = "d88d77838eb4bf179ef785d330a47f73"
